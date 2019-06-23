@@ -12,8 +12,18 @@ app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
 
 app.use((req, res, next) => {
-  res.status(200).json({
-    message: 'Welcome to the Shop API'
+  const error = new Error('Not Found');
+
+  error.status = 404;
+
+  next(error);
+});
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message
+    }
   });
 });
 
