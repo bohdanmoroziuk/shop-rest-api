@@ -1,10 +1,18 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 
-const app = express();
+const { database } = require('./config');
 
 const productsRoutes = require('./src/routes/products');
 const ordersRoutes = require('./src/routes/orders');
+
+const app = express();
+
+mongoose
+  .connect(`${database.url}${database.name}`, database.options)
+  .then(() => console.log('Database connection established'))
+  .catch(console.error);
 
 app.use(morgan('dev'));
 
