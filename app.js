@@ -9,6 +9,8 @@ const ordersRoutes = require('./src/routes/orders');
 
 const app = express();
 
+mongoose.set('useFindAndModify', false);
+
 mongoose
   .connect(`${database.url}${database.name}`, database.options)
   .then(() => console.log('Database connection established'))
