@@ -1,0 +1,28 @@
+{
+  "name": "shop-rest-api",
+  "version": "1.0.0",
+  "description": "A Node.js RESTful Shop API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuzumi/shop-rest-api.git"
+  },
+  "keywords": [
+    "rest",
+    "api",
+    "node.js",
+    "express.js",
+    "mongodb",
+    "http",
+    "https"
+  ],
+  "author": "Bogdan Morozyuk (bogdan7morozyuk@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuzumi/shop-rest-api/issues"
+  },
+  "homepage": "https://github.com/yuzumi/shop-rest-api#readme"
+}
