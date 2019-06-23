@@ -8,6 +8,9 @@ const ordersRoutes = require('./src/routes/orders');
 
 app.use(morgan('dev'));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
 
