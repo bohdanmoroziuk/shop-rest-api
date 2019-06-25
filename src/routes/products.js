@@ -60,7 +60,7 @@ router.patch('/:id', (req, res, next) => {
     .then(product => {
       res.status(201).json({
         message: 'Handling PATCH request /products/:id',
-        createdProduct: product
+        updatedProduct: product
       });
     })
     .catch(error => {
