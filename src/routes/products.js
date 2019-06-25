@@ -2,18 +2,21 @@ const router = require('express').Router();
 const Product = require('../models/product');
 
 router.get('/', (req, res, next) => {
-  Product.find()
-    .then(products => {
-      res.status(200).json({
-        message: 'Handling GET request /products',
-        products
+  Product
+    .find()
+    .select('_id name price')
+      .then(products => {
+        res.status(200).json({
+          message: 'Handling GET request /products',
+          products,
+          count: products.length
+        });
+      })
+      .catch(error => {
+        res.status(404).json({
+          error
+        });
       });
-    })
-    .catch(error => {
-      res.status(404).json({
-        error
-      });
-    });
 });
 
 router.get('/:id', (req, res, next) => {
@@ -39,17 +42,17 @@ router.post('/', (req, res, next) => {
     price
   })
     .save()
-    .then(product => {
-      res.status(201).json({
-        message: 'Handling POST request /products',
-        createdProduct: product
+      .then(product => {
+        res.status(201).json({
+          message: 'Handling POST request /products',
+          createdProduct: product
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          error
+        });
       });
-    })
-    .catch(error => {
-      res.status(500).json({
-        error
-      });
-    });
 });
 
 router.patch('/:id', (req, res, next) => {
