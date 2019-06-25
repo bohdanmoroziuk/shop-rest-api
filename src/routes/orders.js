@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
   Order
     .find()
     .select('_id productId quantity')
+    .populate('product', '_id name price')
       .then(orders => {
         res.status(200).json({
           message: 'Handling GET request /orders',
@@ -26,6 +27,7 @@ router.get('/:id', (req, res, next) => {
   Order
     .findById(req.params.id)
     .select('_id productId quantity')
+    .populate('product', '_id name price')
       .then(order => {
         res.status(200).json({
           message: 'Handling GET request /orders/:id',
