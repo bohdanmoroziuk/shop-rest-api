@@ -6,6 +6,7 @@ const { database } = require('./config');
 
 const productsRoutes = require('./src/routes/products');
 const ordersRoutes = require('./src/routes/orders');
+const userRoutes = require('./src/routes/user');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
+app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not Found');
