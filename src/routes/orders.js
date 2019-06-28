@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const Order = require('../models/order');
 const Product = require('../models/product');
 
-router.get('/', (req, res, next) => {
+const checkAuth = require('../middleware/check-auth');
+
+router.get('/', checkAuth, (req, res, next) => {
   Order
     .find()
     .select('_id productId quantity')
@@ -23,7 +25,7 @@ router.get('/', (req, res, next) => {
       });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkAuth, (req, res, next) => {
   Order
     .findById(req.params.id)
     .select('_id productId quantity')
@@ -41,7 +43,7 @@ router.get('/:id', (req, res, next) => {
       });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
   const { productId, quantity } = req.body;
 
   Product.findById(productId)
@@ -73,7 +75,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.patch('/:id', (req, res, next) => {
+router.patch('/:id', checkAuth, (req, res, next) => {
   Order.findByIdAndUpdate(req.params.id, { $set: { ...req.body } })
     .then(order => {
       res.status(201).json({
@@ -88,7 +90,7 @@ router.patch('/:id', (req, res, next) => {
     });
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, (req, res, next) => {
   Order.findByIdAndRemove(req.params.id)
     .then(order => {
       res.status(200).json({

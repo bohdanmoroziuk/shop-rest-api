@@ -3,6 +3,8 @@ const multer = require('multer');
 
 const Product = require('../models/product');
 
+const checkAuth = require('../middleware/check-auth');
+
 const storage = multer.diskStorage({
   destination(req, file, callback) {
     callback(null, './uploads/');
@@ -66,7 +68,7 @@ router.get('/:id', (req, res, next) => {
       });
 });
 
-router.post('/', upload.single('image'), (req, res, next) => {
+router.post('/', checkAuth, upload.single('image'), (req, res, next) => {
   const { name, price } = req.body;
 
   new Product({
@@ -88,7 +90,7 @@ router.post('/', upload.single('image'), (req, res, next) => {
       });
 });
 
-router.patch('/:id', (req, res, next) => {
+router.patch('/:id', checkAuth, (req, res, next) => {
   Product.findByIdAndUpdate(req.params.id, { $set: { ...req.body } })
     .then(product => {
       res.status(201).json({
@@ -103,7 +105,7 @@ router.patch('/:id', (req, res, next) => {
     });
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAuth, (req, res, next) => {
   Product.findByIdAndRemove(req.params.id)
     .then(product => {
       res.status(200).json({
