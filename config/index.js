@@ -1,7 +1,7 @@
 module.exports = {
   database: {
-    url: 'mongodb://localhost:27017/',
-    name: 'shop-rest-api',
+    url: process.env.DATABASE_HOST,
+    name: process.env.DATABASE_NAME,
     options: {
       useNewUrlParser: true
     }
