@@ -1,12 +1,11 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
 router.post('/signup', (req, res, next) => {
   const { email, password } = req.body;
-
-  const saltRounds = 10;
 
   User.find({ email })
     .then(user => {
@@ -17,7 +16,7 @@ router.post('/signup', (req, res, next) => {
         });
       }
 
-      bcrypt.hash(password, saltRounds, function (error, hash) {
+      bcrypt.hash(password, process.env.JWT_SALT_ROUNDS, function (error, hash) {
         if (error) {
           return res.status(500).json({
             error
@@ -40,6 +39,43 @@ router.post('/signup', (req, res, next) => {
               error
             });
           });
+      });
+    });
+});
+
+router.post('/login', (req, res, next) => {
+  const { email, password } = req.body;
+
+  User.find({ email })
+    .then(user => {
+      if (user.length < 1) {
+        return res.status(401).json({
+          message: 'Auth failed'
+        });
+      }
+
+      bcrypt.compare(password, user[0].password, (error, result) => {
+        if (error || !result) {
+          return res.status(401).json({
+            message: 'Auth failed'
+          });
+        }
+
+        const token = jwt.sign(
+          { email, id: user[0]._id }, 
+          process.env.JWT_SECRET_KEY, 
+          { expiresIn: '1h' }
+        );
+
+        return res.status(200).json({
+          message: 'Auth successful',
+          token
+        });
+      });
+    })
+    .catch(error => {
+      res.status(500).json({
+        error
       });
     });
 });
