@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
+const dotenv = require('dotenv');
 
 const { database } = require('./config');
 
@@ -9,6 +10,8 @@ const ordersRoutes = require('./src/routes/orders');
 const userRoutes = require('./src/routes/user');
 
 const app = express();
+
+dotenv.config();
 
 mongoose.set('useFindAndModify', false);
 
